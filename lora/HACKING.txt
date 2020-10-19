@@ -1,0 +1,9 @@
+# Unter MS-Windows
+
+$ Z:
+$ cd Z:\dev\lora
+$ python -m venv ms_venv
+$ .\ms_venv\Scripts\activate
+$ pip install pyinstaller
+$ pip install xlwt
+$ pyinstaller --onefile -w convert.py
