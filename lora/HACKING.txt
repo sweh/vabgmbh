@@ -5,5 +5,5 @@ $ cd Z:\dev\lora
 $ python -m venv ms_venv
 $ .\ms_venv\Scripts\activate
 $ pip install pyinstaller
-$ pip install xlwt
+$ pip install xlwt paramiko scp
 $ pyinstaller --onefile -w convert.py
