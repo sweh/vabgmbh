@@ -27,9 +27,10 @@ def createSSHClient(server, port, user, password):
     return client
 
 
+ssh = scp = None
+
 while True:
     time.sleep(float(base_config['trigger']) / 1000)
-    ssh = scp = None
     if not ssh and ssh_config['ssh_host']:
         try:
             ssh = createSSHClient(
@@ -53,7 +54,11 @@ while True:
 
     try:
         if scp:
-            scp.get(ssh_config['ssh_file'], base_config['input'])
+            try:
+                scp.get(ssh_config['ssh_file'], base_config['input'])
+            except Exception as e:
+                logging.error(e)
+                ssh = scp = None
         with open(base_config['input'], 'rb') as csvfile:
             xlsout = []
             csvfile = StringIO(
@@ -88,15 +93,3 @@ while True:
                 workbook.save(f)
     except Exception as e:
         logging.error(e)
-    finally:
-        if scp:
-            try:
-                scp.close()
-            except Exception:
-                pass
-        if ssh:
-            try:
-                ssh.close()
-            except Exception:
-                pass
-        scp = ssh = None
